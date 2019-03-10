@@ -6,6 +6,7 @@ Totalmonths = 0
 Total = 0
 PLPreviousrow = 0
 AverageChanges = 0.0
+SumChanges =0.0
 Changes = {}
 GrProfitIncrease = 0
 GrProfitDecrease = 0
@@ -26,9 +27,8 @@ with open(csvpath, newline="") as csvfile:
         if (PLPreviousrow != 0):
             Changes[row[0]]= int(row[1])-PLPreviousrow   # Insert the Change month and the value in a Dictionary
         PLPreviousrow = int(row[1])
-
     for month , changevalue in Changes.items():
-        AverageChanges += changevalue
+        SumChanges += changevalue
 
         if changevalue > GrProfitIncrease:
             GrProfitIncrease = changevalue
@@ -37,7 +37,9 @@ with open(csvpath, newline="") as csvfile:
         if changevalue < GrProfitDecrease:
             GrProfitDecrease = changevalue
             GrProfitDecMonth = month
-            
+
+    AverageChanges = round(SumChanges/len(Changes),2)
+
 print("Financial Analysis")
 print("===================")
 print(f"Total Months: {Totalmonths}")
